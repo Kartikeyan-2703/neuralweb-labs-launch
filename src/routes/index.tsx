@@ -178,7 +178,7 @@ function Navbar() {
           <button className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white md:inline-flex">
             <Github className="h-3.5 w-3.5" /> GitHub
           </button>
-          <button className="glass-button inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-medium text-white">
+          <button className="glass-button inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-[12px] font-medium text-white">
             Book a Call
             <ChevronRight className="h-3.5 w-3.5" />
           </button>
