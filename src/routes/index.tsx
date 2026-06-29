@@ -28,14 +28,24 @@ import {
   Lock,
   Rocket,
   CheckCircle,
+  MessageCircle,
 } from "lucide-react";
 import eclipse from "@/assets/eclipse.jpg";
 import dashboard from "@/assets/dashboard.png";
 import project1 from "@/assets/project-1.png";
 import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
+import nwlLogo from "@/assets/nwl-logo.jpg";
+import prasannaImg from "@/assets/prasanna.png";
+import kartikeyanImg from "@/assets/kartikeyan.png";
 import { SpaceBackground } from "@/components/SpaceBackground";
 import { InteractiveDotField } from "@/components/InteractiveDotField";
+
+const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+);
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -154,21 +164,19 @@ function PrimaryButton({
   onClick?: () => void;
 }) {
   return (
-    <button onClick={onClick} className="group glass-button relative overflow-hidden inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-medium text-white hover:scale-[1.02] hover:border-white/25">
+    <button onClick={onClick} className="group relative overflow-hidden inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-7 py-3.5 text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
       <GlossyOverlay radius="9999px" isButton />
-      <span className="absolute inset-0 rounded-full bg-gradient-to-b from-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       <span className="relative">{children}</span>
-      <span className="relative grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 group-hover:translate-x-1">
-        {icon ?? <ArrowRight className="h-3.5 w-3.5" />}
+      <span className="relative grid h-6 w-6 place-items-center rounded-full border border-white/10 transition-transform duration-500 group-hover:translate-x-1">
+        {icon ?? <ArrowRight className="h-3 w-3" />}
       </span>
-      <span className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ boxShadow: "0 0 60px -10px rgba(111,156,255,0.45)" }} />
     </button>
   );
 }
 
-function GhostButton({ children, icon }: { children: React.ReactNode; icon?: React.ReactNode }) {
+function GhostButton({ children, icon, onClick }: { children: React.ReactNode; icon?: React.ReactNode; onClick?: () => void }) {
   return (
-    <button className="group relative overflow-hidden inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-7 py-3.5 text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
+    <button onClick={onClick} className="group relative overflow-hidden inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-7 py-3.5 text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
       <GlossyOverlay radius="9999px" isButton />
       <span className="relative grid h-6 w-6 place-items-center rounded-full border border-white/10">
         {icon ?? <Play className="h-3 w-3 fill-white/80" />}
@@ -182,16 +190,37 @@ function GhostButton({ children, icon }: { children: React.ReactNode; icon?: Rea
 /* NAVBAR                                                     */
 /* ---------------------------------------------------------- */
 
-const NAV = ["Overview", "Solutions", "Services", "Showcase", "About Us"];
+const NAV = [
+  { name: "Overview", id: "hero" },
+  { name: "Solutions", id: "solutions" },
+  { name: "Services", id: "services" },
+  { name: "Showcase", id: "showcase" },
+  { name: "About Us", id: "about" }
+];
 
 function Navbar({ onContactClick }: { onContactClick?: () => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+
+      let current = "hero";
+      for (const n of NAV) {
+        const section = document.getElementById(n.id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+            current = n.id;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -243,9 +272,7 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
 
         {/* Logo */}
         <a href="#" className="relative z-10 flex items-center gap-2.5 pr-6">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-white/15 to-white/0 ring-1 ring-white/10">
-            <span className="block h-2 w-2 rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" />
-          </span>
+          <img src={nwlLogo} alt="NeuralWeb Labs" className="h-8 w-8 rounded-md object-contain" />
           <span className="text-[13px] font-medium tracking-tight text-white">
             NeuralWeb<span className="text-white/40"> Labs</span>
           </span>
@@ -255,20 +282,18 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
 
         <ul className="relative z-10 hidden items-center gap-1 px-2 lg:flex">
           {NAV.map((n, i) => (
-            <li key={n}>
+            <li key={n.name}>
               <a
-                href="#"
+                href={`#${n.id}`}
                 onClick={(e) => {
-                  if (n === "Contact" && onContactClick) {
-                    e.preventDefault();
-                    onContactClick();
-                  }
+                  e.preventDefault();
+                  document.getElementById(n.id)?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className={`relative block rounded-full px-3.5 py-1.5 text-[13px] whitespace-nowrap transition-colors duration-300 ${i === 0 ? "text-white" : "text-white/55 hover:text-white"
+                className={`relative block rounded-full px-3.5 py-1.5 text-[13px] whitespace-nowrap transition-colors duration-300 ${activeSection === n.id ? "text-white" : "text-white/55 hover:text-white"
                   }`}
               >
-                {n}
-                {i === 0 && (
+                {n.name}
+                {activeSection === n.id && (
                   <span className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[color:var(--accent-glow)] shadow-[0_0_8px_rgba(111,156,255,0.8)]" />
                 )}
               </a>
@@ -277,7 +302,7 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
         </ul>
 
         <div className="relative z-10 ml-auto flex items-center gap-1.5">
-          <button className="glass-button inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-[12px] font-medium text-white">
+          <button onClick={onContactClick} className="glass-button inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-[12px] font-medium text-white">
             Contact Us
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
@@ -291,7 +316,7 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
 /* HERO                                                       */
 /* ---------------------------------------------------------- */
 
-function Hero() {
+function Hero({ onStart }: { onStart?: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const planetY = useTransform(scrollYProgress, [0, 1], [0, 120]);
@@ -300,7 +325,7 @@ function Hero() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center pt-44 pb-24">
+    <section id="hero" ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center pt-44 pb-24">
       {/* Eclipse / planet */}
       <motion.div
         style={{ y: planetY, rotate: planetRotate }}
@@ -386,8 +411,8 @@ function Hero() {
 
         <FadeUp delay={0.3}>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            <PrimaryButton>Start a Project</PrimaryButton>
-            <GhostButton icon={<Users className="h-3.5 w-3.5" />}>About Us</GhostButton>
+            <PrimaryButton onClick={onStart}>Start a Project</PrimaryButton>
+            <GhostButton onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} icon={<Users className="h-3.5 w-3.5" />}>About Us</GhostButton>
           </div>
         </FadeUp>
 
@@ -503,7 +528,7 @@ const SERVICES = [
 
 function Services() {
   return (
-    <section className="relative py-32">
+    <section id="services" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid items-end gap-10 md:grid-cols-2 md:gap-20">
           <FadeUp>
@@ -600,7 +625,7 @@ function ServiceCard({
 
 function Feature() {
   return (
-    <section className="relative py-32">
+    <section id="solutions" className="relative py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-20 px-6 lg:grid-cols-2">
         <FadeUp>
           <SectionEyebrow label="OUR APPROACH" />
@@ -770,18 +795,14 @@ const PROJECTS = [
 
 function Projects() {
   return (
-    <section className="relative py-32">
+    <section id="showcase" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex items-end justify-between gap-10">
           <FadeUp>
             <SectionEyebrow label="Showcase" />
             <SectionTitle>Recent projects.</SectionTitle>
           </FadeUp>
-          <FadeUp delay={0.1}>
-            <a className="hidden text-[13px] text-white/55 hover:text-white md:inline-flex md:items-center md:gap-2" href="#">
-              View archive <ArrowRight className="h-3.5 w-3.5" />
-            </a>
-          </FadeUp>
+
         </div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -835,9 +856,16 @@ function ProjectCard({ title, category, img, link = "#", isOngoing }: { title: s
             <div className="text-[11px] uppercase tracking-[0.2em] text-white/45">{category}</div>
             <div className="mt-1.5 text-[15px] font-medium tracking-tight text-white">{title}</div>
           </div>
-          <span className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.03] transition-transform duration-500 group-hover:translate-x-1 group-hover:border-white/20">
-            <ArrowRight className="h-3.5 w-3.5 text-white/70" />
-          </span>
+          <div className="relative flex items-center justify-center group/btn">
+            {isOngoing && (
+              <span className="absolute -top-8 right-0 rounded bg-white/10 px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity duration-300 group-hover/btn:opacity-100 whitespace-nowrap pointer-events-none">
+                Coming soon
+              </span>
+            )}
+            <span className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.03] transition-all duration-500 group-hover:translate-x-1 group-hover:border-white/20 group-hover/btn:border-white/20 group-hover/btn:bg-white/[0.06]">
+              <ArrowRight className="h-3.5 w-3.5 text-white/70" />
+            </span>
+          </div>
         </div>
       </div>
     </a>
@@ -880,17 +908,17 @@ function Testimonials() {
         <div className="mt-16 grid gap-5 md:grid-cols-3">
           {QUOTES.map((qq, i) => (
             <FadeUp key={qq.a} delay={i * 0.07}>
-              <figure className="glass-panel relative h-full rounded-3xl p-9">
+              <figure className="glass-panel relative flex h-full flex-col rounded-3xl p-9">
                 <span
                   className="absolute right-7 top-4 text-7xl leading-none text-white/[0.06]"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   &ldquo;
                 </span>
-                <blockquote className="text-[15px] leading-relaxed text-white/80">
+                <blockquote className="mb-8 text-[15px] leading-relaxed text-white/80">
                   &ldquo;{qq.q}&rdquo;
                 </blockquote>
-                <figcaption className="mt-8 border-t border-white/5 pt-5">
+                <figcaption className="mt-auto border-t border-white/5 pt-5">
                   <div className="text-[13px] font-medium text-white">{qq.a}</div>
                   <div className="mt-0.5 text-[12px] text-white/45">{qq.r}</div>
                 </figcaption>
@@ -942,7 +970,7 @@ function CTA({ onStart }: { onStart?: () => void }) {
           <FadeUp delay={0.3}>
             <div className="mt-12 flex items-center justify-center gap-3">
               <PrimaryButton onClick={onStart}>Let&apos;s talk</PrimaryButton>
-              <GhostButton icon={<Mail className="h-3 w-3" />}>admin@neuralweb.com</GhostButton>
+              <GhostButton onClick={() => window.location.href = 'mailto:admin@neuralweb.com'} icon={<Mail className="h-3 w-3" />}>admin@neuralweb.com</GhostButton>
             </div>
           </FadeUp>
         </div>
@@ -952,10 +980,311 @@ function CTA({ onStart }: { onStart?: () => void }) {
 }
 
 /* ---------------------------------------------------------- */
+/* ABOUT US                                                   */
+/* ---------------------------------------------------------- */
+
+function EngineeringVisual() {
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-lg">
+      {/* Subtle radial glow */}
+      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(93,169,255,0.08),transparent_60%)] blur-2xl" />
+
+      {/* Main glass container */}
+      <div className="absolute inset-4 overflow-hidden rounded-3xl border border-white/10 bg-[#090B11]/80 shadow-2xl backdrop-blur-xl transition-transform duration-1000 ease-out hover:scale-[1.02] hover:border-white/20">
+
+        {/* SVG Drawing Canvas */}
+        <svg viewBox="0 0 400 400" className="h-full w-full text-white/20">
+          <defs>
+            <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(93,169,255,0.1)" />
+              <stop offset="50%" stopColor="rgba(93,169,255,0.6)" />
+              <stop offset="100%" stopColor="rgba(93,169,255,0.1)" />
+            </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+
+          {/* Connection Lines */}
+          <path d="M 50 150 C 150 150, 150 250, 200 250" fill="none" stroke="url(#line-gradient)" strokeWidth="1.5" />
+          <path d="M 200 250 C 250 250, 300 200, 350 200" fill="none" stroke="url(#line-gradient)" strokeWidth="1.5" />
+          <path d="M 100 300 C 150 300, 200 250, 250 150" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
+          <path d="M 230 67 C 200 67, 180 150, 150 150" fill="none" stroke="rgba(93,169,255,0.3)" strokeWidth="1" strokeDasharray="3 3" />
+
+          {/* Central AI Node */}
+          <circle cx="200" cy="250" r="30" fill="#090B11" stroke="rgba(93,169,255,0.5)" strokeWidth="1.5" filter="url(#glow)" />
+          <circle cx="200" cy="250" r="15" fill="rgba(93,169,255,0.2)" />
+          <circle cx="200" cy="250" r="4" fill="#5DA9FF" />
+
+          {/* Mobile Device Outline */}
+          <rect x="40" y="80" width="60" height="120" rx="8" fill="#050608" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <rect x="45" y="85" width="50" height="110" rx="4" fill="rgba(255,255,255,0.02)" />
+
+          {/* Web App Window Outline */}
+          <rect x="220" y="60" width="140" height="90" rx="6" fill="#050608" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <line x1="220" y1="75" x2="360" y2="75" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <circle cx="230" cy="67.5" r="2" fill="rgba(255,255,255,0.3)" />
+          <circle cx="236" cy="67.5" r="2" fill="rgba(255,255,255,0.3)" />
+          <circle cx="242" cy="67.5" r="2" fill="rgba(255,255,255,0.3)" />
+
+          {/* Analytics Bars inside Web App */}
+          <rect x="235" y="125" width="10" height="15" rx="2" fill="rgba(93,169,255,0.4)" />
+          <rect x="250" y="110" width="10" height="30" rx="2" fill="rgba(93,169,255,0.6)" />
+          <rect x="265" y="90" width="10" height="50" rx="2" fill="rgba(93,169,255,0.8)" />
+
+          {/* Cloud / Architecture Blocks */}
+          <rect x="300" y="240" width="70" height="80" rx="8" fill="#090B11" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+          <line x1="310" y1="260" x2="360" y2="260" stroke="rgba(255,255,255,0.1)" strokeWidth="4" strokeLinecap="round" />
+          <line x1="310" y1="275" x2="340" y2="275" stroke="rgba(255,255,255,0.1)" strokeWidth="4" strokeLinecap="round" />
+          <line x1="310" y1="290" x2="350" y2="290" stroke="rgba(255,255,255,0.1)" strokeWidth="4" strokeLinecap="round" />
+
+          {/* API Connection Indicator */}
+          <circle cx="150" cy="150" r="4" fill="#5DA9FF" filter="url(#glow)" className="animate-pulse" />
+          <circle cx="300" cy="200" r="4" fill="#5DA9FF" filter="url(#glow)" className="animate-pulse" />
+
+          {/* Floating Nodes */}
+          <circle cx="100" cy="300" r="12" fill="#090B11" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <circle cx="250" cy="150" r="12" fill="#090B11" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+        </svg>
+
+        {/* CSS Floating Particles */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-[30%] top-[20%] h-1 w-1 animate-pulse rounded-full bg-[#5DA9FF] blur-[1px]" />
+          <div className="absolute left-[70%] top-[60%] h-1.5 w-1.5 animate-pulse rounded-full bg-[#5DA9FF] blur-[1px] delay-1000" />
+          <div className="absolute left-[40%] top-[80%] h-1 w-1 animate-pulse rounded-full bg-white/50 blur-[1px] delay-500" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AboutUs() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
+  return (
+    <section id="about" ref={ref} className="relative overflow-hidden py-32">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0 -z-20">
+        <div className="absolute left-1/2 top-1/2 h-[800px] w-[1000px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(93,169,255,0.03),transparent_60%)] blur-3xl" />
+      </div>
+
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 md:grid-cols-[45%_55%] lg:gap-24">
+        {/* Left Column */}
+        <motion.div style={{ y }} className="relative z-10">
+          <FadeUp>
+            <SectionEyebrow label="About Us" />
+          </FadeUp>
+
+          <FadeUp delay={0.1}>
+            <h2
+              className="mb-6 pb-4 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.03em]"
+              style={{
+                background: 'linear-gradient(180deg, #FFFFFF 0%, #E8EDF4 16%, #C4CDD9 34%, #8A96A8 52%, #5E6878 65%, #7A8898 78%, #9DAABB 90%, #B8C4D0 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))',
+                fontFamily: "var(--font-display)"
+              }}
+            >
+              Engineering Intelligent<br />Digital Experiences.
+            </h2>
+          </FadeUp>
+
+          <FadeUp delay={0.2}>
+            <p className="mb-10 text-[17px] leading-relaxed text-white/60">
+              At NeuralWeb Labs, we deliver AI-powered applications, enterprise software, web platforms, mobile experiences, and intelligent automation tailored to business needs. Our engineering approach emphasizes quality, scalability, security, and long-term value, ensuring every solution is built to perform today and adapt for tomorrow.
+            </p>
+          </FadeUp>
+
+          <FadeUp delay={0.3}>
+            <PrimaryButton onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} icon={<ArrowRight className="h-3 w-3" />}>
+              Learn More
+            </PrimaryButton>
+          </FadeUp>
+        </motion.div>
+
+        {/* Right Column */}
+        <FadeUp delay={0.4} className="relative z-10 h-full w-full">
+          <EngineeringVisual />
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------------------------------------- */
+/* FOUNDERS                                                   */
+/* ---------------------------------------------------------- */
+
+function FounderCard({
+  name,
+  role,
+  imageSrc,
+  email,
+  linkedin,
+  github,
+  phone,
+}: {
+  name: string;
+  role: string;
+  imageSrc: string;
+  email: string;
+  linkedin?: string;
+  github?: string;
+  phone?: string;
+}) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative flex flex-col items-center overflow-hidden rounded-[24px] border border-white/10 bg-black/40 p-10 backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-1.5 hover:border-white/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]"
+    >
+      {/* Subtle blue ambient glow behind card content */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.03),transparent_70%)]" />
+
+      {/* Cursor-following glossy reflection */}
+      <div
+        className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.06), transparent 40%)`,
+        }}
+      />
+
+      {/* Founder Image */}
+      <div className="relative mb-6">
+        <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-[#3B82F6]/20 blur-xl transition-all duration-500 group-hover:bg-[#3B82F6]/40 group-hover:blur-2xl" />
+        <img
+          src={imageSrc}
+          alt={name}
+          className="h-40 w-40 rounded-full bg-[#050505] object-cover object-[center_10%] ring-1 ring-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+        />
+      </div>
+
+      {/* Founder Details */}
+      <h3 className="mb-1 text-2xl font-medium tracking-tight text-[#E8EDF4]">
+        {name}
+      </h3>
+      <p className="mb-4 text-[14px] text-white/50">{role}</p>
+      <a href={`mailto:${email}`} className="mb-10 text-[13px] text-white/40 transition-colors hover:text-[#60A5FA]">
+        {email}
+      </a>
+
+      {/* Contact Links */}
+      <div className="relative z-30 mt-auto flex items-center justify-center gap-5">
+        {[
+          { icon: Linkedin, href: linkedin || "#" },
+          { icon: Github, href: github || "#" },
+          { icon: Smartphone, href: phone ? `tel:${phone.replace(/\s/g, "")}` : "#" },
+        ].map((item, i) => (
+          <a
+            key={i}
+            href={item.href}
+            target={item.href !== "#" && !item.href.startsWith("tel:") ? "_blank" : undefined}
+            rel={item.href !== "#" && !item.href.startsWith("tel:") ? "noopener noreferrer" : undefined}
+            onClick={(e) => {
+              if (item.href !== "#" && !item.href.startsWith("tel:")) {
+                e.stopPropagation();
+              }
+            }}
+            className="text-white/40 transition-all duration-300 hover:scale-110 hover:text-[#60A5FA] hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.8)]"
+          >
+            <item.icon className="h-5 w-5" strokeWidth={1.5} />
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Founders() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
+  return (
+    <section ref={ref} className="relative py-40 overflow-hidden">
+      {/* Background Effects */}
+      <div className="pointer-events-none absolute inset-0 -z-20">
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.06),transparent_60%)] blur-3xl" />
+      </div>
+
+      <motion.div style={{ y }} className="relative mx-auto max-w-5xl px-6 text-center">
+        <FadeUp>
+          <div className="mb-6 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.24em] text-white/40">
+            MEET THE FOUNDERS
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.1}>
+          <h2
+            className="mx-auto mb-20 max-w-3xl text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-[1.05] tracking-[-0.042em]"
+            style={{
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #E8EDF4 16%, #C4CDD9 34%, #8A96A8 52%, #5E6878 65%, #7A8898 78%, #9DAABB 90%, #B8C4D0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))',
+              fontFamily: "var(--font-display)"
+            }}
+          >
+            The Minds Behind<br />NeuralWeb Labs.
+          </h2>
+        </FadeUp>
+
+        <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
+          <FadeUp delay={0.2}>
+            <FounderCard
+              name="Kartikeyan Suresh"
+              role="Co-Founder & Software Engineer"
+              imageSrc={kartikeyanImg}
+              email="kartikeyansuresh@neuralweblabs.com"
+              linkedin="https://www.linkedin.com/in/kartikeyan-suresh-48738335a/"
+              github="http://github.com/Kartikeyan-2703"
+              phone="+91 63819 99421"
+            />
+          </FadeUp>
+          <FadeUp delay={0.3}>
+            <FounderCard
+              name="Prasanna Saravanan"
+              role="Co-Founder & Software Engineer"
+              imageSrc={prasannaImg}
+              email="prasannasaravanan@neuralweblabs.com"
+              linkedin="https://www.linkedin.com/in/prasanna-saravanan-802071312/"
+              github="https://github.com/Prasanna-2267"
+              phone="+91 93601 45782"
+            />
+          </FadeUp>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ---------------------------------------------------------- */
 /* FOOTER                                                     */
 /* ---------------------------------------------------------- */
 
-function Footer() {
+function Footer({ onContactClick }: { onContactClick?: () => void }) {
   return (
     <footer className="relative pb-12 pt-10">
       <div className="mx-auto max-w-7xl px-6">
@@ -963,9 +1292,7 @@ function Footer() {
           <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
               <a href="#" className="flex items-center gap-2.5">
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-white/15 to-white/0 ring-1 ring-white/10">
-                  <span className="block h-2 w-2 rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" />
-                </span>
+                <img src={nwlLogo} alt="NeuralWeb Labs" className="h-8 w-8 rounded-md object-contain" />
                 <span className="text-[14px] font-medium tracking-tight text-white">
                   NeuralWeb<span className="text-white/40"> Labs</span>
                 </span>
@@ -974,22 +1301,50 @@ function Footer() {
                 An AI innovation studio engineering the future of intelligent systems.
               </p>
               <div className="mt-8 flex items-center gap-2">
-                {[Twitter, Linkedin, Github].map((Icon, i) => (
+                {[
+                  { icon: Mail, href: "mailto:admin@neuralweb.com" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/company/neuralweb-labs/" },
+                  { icon: WhatsappIcon, href: "https://wa.me/916381999421?text=Hi%20NeuralWeb%20Labs%2C%0A%0AI'm%20interested%20in%20discussing%20a%20project%20with%20your%20team.%20I'd%20like%20to%20learn%20more%20about%20your%20services%20and%20explore%20how%20we%20can%20work%20together." }
+                ].map((s, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/55 transition-colors hover:border-white/25 hover:text-white"
                   >
-                    <Icon className="h-3.5 w-3.5" />
+                    <s.icon className="h-3.5 w-3.5" />
                   </a>
                 ))}
               </div>
             </div>
 
             {[
-              { h: "Studio", l: ["About", "Services", "Process", "Careers"] },
-              { h: "Work", l: ["Projects", "Case Studies", "Clients", "Press"] },
-              { h: "Contact", l: ["Book a call", "hello@neuralweb.com", "Lisbon · Remote"] },
+              { 
+                h: "Company", 
+                l: [
+                  { label: "About Us", id: "about" },
+                  { label: "Our Approach", id: "solutions" },
+                  { label: "Showcase", id: "showcase" },
+                  { label: "Contact Us", action: "contact" }
+                ] 
+              },
+              { 
+                h: "Services", 
+                l: [
+                  { label: "AI Solutions", id: "services" },
+                  { label: "Web Applications", id: "services" },
+                  { label: "Mobile Apps", id: "services" },
+                  { label: "Custom Software", id: "services" }
+                ] 
+              },
+              { 
+                h: "Contact", 
+                l: [
+                  { label: "Start a Project", action: "contact" },
+                  { label: "admin@neuralweb.com", href: "mailto:admin@neuralweb.com" }
+                ] 
+              },
             ].map((col) => (
               <div key={col.h}>
                 <div className="text-[11px] uppercase tracking-[0.22em] text-white/40">
@@ -997,10 +1352,27 @@ function Footer() {
                 </div>
                 <ul className="mt-5 space-y-3">
                   {col.l.map((item) => (
-                    <li key={item}>
-                      <a href="#" className="text-[13px] text-white/65 transition-colors hover:text-white">
-                        {item}
-                      </a>
+                    <li key={item.label}>
+                      {item.href ? (
+                        <a href={item.href} className="text-[13px] text-white/65 transition-colors hover:text-white">
+                          {item.label}
+                        </a>
+                      ) : (
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (item.action === 'contact' && onContactClick) {
+                              onContactClick();
+                            } else if (item.id) {
+                              document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                            }
+                          }}
+                          className="text-[13px] text-white/65 transition-colors hover:text-white text-left"
+                        >
+                          {item.label}
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -1011,9 +1383,9 @@ function Footer() {
           <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-6 text-[12px] text-white/40 md:flex-row md:items-center">
             <div>© {new Date().getFullYear()} NeuralWeb Labs. All rights reserved.</div>
             <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-white">Privacy</a>
-              <a href="#" className="hover:text-white">Terms</a>
-              <a href="#" className="hover:text-white">Security</a>
+              <span className="cursor-pointer transition-colors hover:text-white">Privacy</span>
+              <span className="cursor-pointer transition-colors hover:text-white">Terms</span>
+              <span className="cursor-pointer transition-colors hover:text-white">Security</span>
             </div>
           </div>
         </div>
@@ -1244,16 +1616,18 @@ function Landing() {
             >
               <Navbar onContactClick={() => setFlowState('form')} />
               <main>
-                <Hero />
+                <Hero onStart={() => setFlowState('form')} />
                 <Marquee />
+                <AboutUs />
                 <Services />
                 <Feature />
                 <WhyUs />
                 <Projects />
                 <Testimonials />
                 <CTA onStart={() => setFlowState('form')} />
+                <Founders />
               </main>
-              <Footer />
+              <Footer onContactClick={() => setFlowState('form')} />
             </motion.div>
           )}
 
