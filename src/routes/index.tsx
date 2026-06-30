@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { BrandReveal } from "@/components/BrandReveal";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -192,10 +193,10 @@ function GhostButton({ children, icon, onClick }: { children: React.ReactNode; i
 
 const NAV = [
   { name: "Overview", id: "hero" },
-  { name: "Solutions", id: "solutions" },
+  { name: "About Us", id: "about" },
   { name: "Services", id: "services" },
-  { name: "Showcase", id: "showcase" },
-  { name: "About Us", id: "about" }
+  { name: "Solutions", id: "solutions" },
+  { name: "Showcase", id: "showcase" }
 ];
 
 function Navbar({ onContactClick }: { onContactClick?: () => void }) {
@@ -239,7 +240,7 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.6, ease }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="fixed left-1/2 top-6 z-50 -translate-x-1/2 px-4"
     >
       <nav
@@ -324,10 +325,63 @@ function Hero({ onStart }: { onStart?: () => void }) {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  const premiumEasing = [0.22, 1, 0.36, 1] as const;
+
+  const [bootStage, setBootStage] = useState(0);
+  const [text1Count, setText1Count] = useState(0);
+  const [text2Count, setText2Count] = useState(0);
+  const [text3Count, setText3Count] = useState(0);
+
+  const text1 = "Transforming Ideas into";
+  const text2 = "Intelligent Digital ";
+  const text3 = "solutions.";
+
+  useEffect(() => {
+    // Stage 1: Navbar slides down for 500ms
+    const t = setTimeout(() => setBootStage(1), 500);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const charSpeed = 38; // 35-40ms per char
+
+    if (bootStage === 1) {
+      if (text1Count < text1.length) {
+        const t = setTimeout(() => setText1Count(prev => prev + 1), charSpeed);
+        return () => clearTimeout(t);
+      } else {
+        setBootStage(2);
+      }
+    } else if (bootStage === 2) {
+      if (text2Count < text2.length) {
+        const t = setTimeout(() => setText2Count(prev => prev + 1), charSpeed);
+        return () => clearTimeout(t);
+      } else {
+        setBootStage(3);
+      }
+    } else if (bootStage === 3) {
+      if (text3Count < text3.length) {
+        const t = setTimeout(() => setText3Count(prev => prev + 1), charSpeed);
+        return () => clearTimeout(t);
+      } else {
+        setBootStage(4); // Typing done
+      }
+    } else if (bootStage === 4) {
+      // Wait 300ms, hide cursor, reveal everything else together
+      const t = setTimeout(() => setBootStage(5), 300);
+      return () => clearTimeout(t);
+    }
+  }, [bootStage, text1Count, text2Count, text3Count]);
+
+  const showCursor = bootStage >= 1 && bootStage <= 4;
+
   return (
     <section id="hero" ref={ref} className="relative isolate flex min-h-[100svh] items-center justify-center pt-44 pb-24">
       {/* Eclipse / planet */}
       <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: bootStage >= 5 ? 1 : 0, scale: bootStage >= 5 ? 1 : 0.95 }}
+        transition={{ duration: 0.7, ease: premiumEasing }}
         style={{ y: planetY, rotate: planetRotate }}
         className="pointer-events-none absolute -right-[20%] top-1/2 -z-10 h-[140%] w-[80%] -translate-y-1/2 sm:-right-[15%] lg:-right-[8%]"
       >
@@ -337,7 +391,7 @@ function Hero({ onStart }: { onStart?: () => void }) {
           aria-hidden
           width={1280}
           height={1280}
-          className="h-full w-full object-contain opacity-50 mix-blend-screen scale-75"
+          className="h-full w-full object-contain mix-blend-screen scale-75 opacity-50"
           style={{ filter: "blur(4px)" }}
         />
       </motion.div>
@@ -346,101 +400,67 @@ function Hero({ onStart }: { onStart?: () => void }) {
         style={{ y: contentY, opacity: contentOpacity }}
         className="relative mx-auto flex max-w-5xl flex-col items-center px-6 text-center"
       >
-        <FadeUp>
-          <PillBadge>Powered by NWL Studios</PillBadge>
-        </FadeUp>
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={bootStage >= 5 ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+          transition={{ duration: 0.35, ease: premiumEasing }}
+          className="mb-8"
+        >
+          <PillBadge>POWERED BY NWL STUDIOS</PillBadge>
+        </motion.div>
 
-        <FadeUp delay={0.1}>
-          <h1
-            className="text-display max-w-5xl text-[46px] font-semibold leading-[1.08] tracking-[-0.042em] md:text-[66px] lg:text-[86px]"
-            style={{
-              /* 1. Multi-stop brushed titanium gradient for the main text */
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #E8EDF4 16%, #C4CDD9 34%, #8A96A8 52%, #5E6878 65%, #7A8898 78%, #9DAABB 90%, #B8C4D0 100%)',
+        {/* Hero Headline */}
+        <div className="relative text-display max-w-4xl text-[36px] font-semibold leading-[1.08] tracking-[-0.042em] md:text-[52px] lg:text-[68px] mx-auto text-center">
+          <span style={{
+            background: 'linear-gradient(180deg, #FFFFFF 0%, #E8EDF4 16%, #C4CDD9 34%, #8A96A8 52%, #5E6878 65%, #7A8898 78%, #9DAABB 90%, #B8C4D0 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))',
+          }}>
+            {text1.substring(0, text1Count)}
+            {text1Count === text1.length && <><br className="hidden md:block" /> {text2.substring(0, text2Count)}</>}
+          </span>
+          {text2Count === text2.length && (
+            <span style={{
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #A8D0FF 40%, #2E8CFF 80%, #1A6ED4 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              // Adds a subtle dark drop shadow to separate it from the background
-              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))',
-            }}
-          >
-            Transforming Ideas into{' '}
-            <br className="hidden md:block" />
-            Intelligent Digital{' '}
-
-            {/* 2. Blue "light." word with chrome reflection and glow */}
-            <span className="relative inline-block">
-
-              {/* Ambient glow bloom (rendered behind the actual text) */}
-              <span
-                className="absolute inset-0 select-none pointer-events-none"
-                aria-hidden="true"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #82B8FF 45%, #2E8CFF 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'blur(18px)', // This creates the soft glow spreading out
-                  opacity: 0.7,
-                }}
-              >
-                solutions.
-              </span>
-
-              {/* Crisp foreground text on top */}
-              <span
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A8D0FF 40%, #2E8CFF 80%, #1A6ED4 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  position: 'relative',
-                }}
-              >
-                solutions.
-              </span>
-
+            }}>
+              {text3.substring(0, text3Count)}
             </span>
-          </h1>
-        </FadeUp>
+          )}
 
-        <FadeUp delay={0.2}>
-          <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-muted-soft">
-            We partner with startups and enterprises to transform ideas into scalable AI solutions, modern web platforms, and intelligent digital products.
-          </p>
-        </FadeUp>
+          <motion.span
+            animate={showCursor ? { opacity: [1, 0, 1] } : { opacity: 0 }}
+            transition={showCursor ? { duration: 0.8, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+            className="inline-block w-[0.08em] h-[0.8em] bg-white ml-2 align-middle"
+          />
+        </div>
 
-        <FadeUp delay={0.3}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            <PrimaryButton onClick={onStart}>Start a Project</PrimaryButton>
-            <GhostButton onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} icon={<Users className="h-3.5 w-3.5" />}>About Us</GhostButton>
-          </div>
-        </FadeUp>
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+          animate={bootStage >= 5 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 15, filter: 'blur(4px)' }}
+          transition={{ duration: 0.4, ease: premiumEasing }}
+          className="mt-8 max-w-lg text-[14px] leading-relaxed text-muted-soft"
+        >
+          We partner with startups and enterprises to transform ideas into scalable AI solutions, modern web platforms, and intelligent digital products.
+        </motion.p>
 
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={bootStage >= 5 ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: 0.4, ease: premiumEasing }}
+          className="mt-12 flex flex-wrap items-center justify-center gap-3"
+        >
+          <PrimaryButton onClick={onStart}>Start a Project</PrimaryButton>
+          <GhostButton onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} icon={<Users className="h-3.5 w-3.5" />}>About Us</GhostButton>
+        </motion.div>
 
-        {/* Stats panel */}
-        {/* 
-        <FadeUp delay={0.45} className="mt-24 w-full">
-          <div className="glass-panel relative mx-auto grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-3xl md:grid-cols-4">
-            <GlossyOverlay radius="1.5rem" />
-            {[
-              { icon: Box, value: "240+", label: "Projects delivered" },
-              { icon: Layers, value: "80+", label: "Global clients" },
-              { icon: Sparkles, value: "32", label: "AI solutions" },
-              { icon: InfinityIcon, value: "9 yrs", label: "Innovation" },
-            ].map((s) => (
-              <div key={s.label} className="flex items-center gap-4 bg-[#0a0a0d]/40 px-6 py-7">
-                <s.icon className="h-5 w-5 text-white/60" strokeWidth={1.2} />
-                <div className="text-left">
-                  <div className="text-2xl font-light tracking-tight text-white">{s.value}</div>
-                  <div className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-white/45">
-                    {s.label}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </FadeUp>
-        */}
       </motion.div>
     </section>
   );
@@ -1222,7 +1242,7 @@ function Founders() {
   const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
   return (
-    <section ref={ref} className="relative py-40 overflow-hidden">
+    <section id="founders" ref={ref} className="relative py-40 overflow-hidden">
       {/* Background Effects */}
       <div className="pointer-events-none absolute inset-0 -z-20">
         <div className="absolute left-1/2 top-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.06),transparent_60%)] blur-3xl" />
@@ -1302,8 +1322,8 @@ function Footer({ onContactClick }: { onContactClick?: () => void }) {
               </p>
               <div className="mt-8 flex items-center gap-2">
                 {[
-                  { icon: Mail, href: "mailto:admin@neuralweb.com" },
-                  { icon: Linkedin, href: "https://www.linkedin.com/company/neuralweb-labs/" },
+                  { icon: Mail, href: "mailto:admin@neuralweblabs.com" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/company/neuralweblabs/" },
                   { icon: WhatsappIcon, href: "https://wa.me/916381999421?text=Hi%20NeuralWeb%20Labs%2C%0A%0AI'm%20interested%20in%20discussing%20a%20project%20with%20your%20team.%20I'd%20like%20to%20learn%20more%20about%20your%20services%20and%20explore%20how%20we%20can%20work%20together." }
                 ].map((s, i) => (
                   <a
@@ -1320,30 +1340,30 @@ function Footer({ onContactClick }: { onContactClick?: () => void }) {
             </div>
 
             {[
-              { 
-                h: "Company", 
+              {
+                h: "Company",
                 l: [
                   { label: "About Us", id: "about" },
                   { label: "Our Approach", id: "solutions" },
                   { label: "Showcase", id: "showcase" },
                   { label: "Contact Us", action: "contact" }
-                ] 
+                ]
               },
-              { 
-                h: "Services", 
+              {
+                h: "Services",
                 l: [
                   { label: "AI Solutions", id: "services" },
                   { label: "Web Applications", id: "services" },
                   { label: "Mobile Apps", id: "services" },
                   { label: "Custom Software", id: "services" }
-                ] 
+                ]
               },
-              { 
-                h: "Contact", 
+              {
+                h: "Contact",
                 l: [
                   { label: "Start a Project", action: "contact" },
                   { label: "admin@neuralweb.com", href: "mailto:admin@neuralweb.com" }
-                ] 
+                ]
               },
             ].map((col) => (
               <div key={col.h}>
@@ -1353,19 +1373,19 @@ function Footer({ onContactClick }: { onContactClick?: () => void }) {
                 <ul className="mt-5 space-y-3">
                   {col.l.map((item) => (
                     <li key={item.label}>
-                      {item.href ? (
-                        <a href={item.href} className="text-[13px] text-white/65 transition-colors hover:text-white">
+                      {'href' in item && item.href ? (
+                        <a href={item.href as string} className="text-[13px] text-white/65 transition-colors hover:text-white">
                           {item.label}
                         </a>
                       ) : (
-                        <button 
+                        <button
                           type="button"
                           onClick={(e) => {
                             e.preventDefault();
-                            if (item.action === 'contact' && onContactClick) {
+                            if ('action' in item && item.action === 'contact' && onContactClick) {
                               onContactClick();
-                            } else if (item.id) {
-                              document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                            } else if ('id' in item && item.id) {
+                              document.getElementById(item.id as string)?.scrollIntoView({ behavior: 'smooth' });
                             }
                           }}
                           className="text-[13px] text-white/65 transition-colors hover:text-white text-left"
@@ -1456,8 +1476,8 @@ function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => vo
         <button onClick={onBack} className="absolute top-8 left-8 lg:top-16 lg:left-16 inline-flex items-center gap-2 text-[14px] text-white/50 hover:text-white transition-colors">
           ← Back to Home
         </button>
-        <h2 className="w-full whitespace-pre-line text-[clamp(2.5rem,4vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white mt-8 lg:mt-0 pr-8" style={{ fontFamily: "var(--font-display)" }}>
-          <TypewriterText text={"Let's turn your vision\ninto a product people love to use."} />
+        <h2 className="w-full whitespace-pre-line text-[clamp(2rem,3.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white mt-8 lg:mt-0 lg:pr-4" style={{ fontFamily: "var(--font-display)" }}>
+          <TypewriterText text={"Let's turn your vision\ninto a product\npeople love to use."} />
         </h2>
       </div>
 
@@ -1578,10 +1598,10 @@ function SuccessScreen({ onReturn, clientName }: { onReturn: () => void; clientN
 /* PAGE                                                       */
 /* ---------------------------------------------------------- */
 
-type FlowState = 'landing' | 'transition' | 'form' | 'success';
+type FlowState = 'intro' | 'landing' | 'transition' | 'form' | 'success';
 
 function Landing() {
-  const [flowState, setFlowState] = useState<FlowState>('landing');
+  const [flowState, setFlowState] = useState<FlowState>('intro');
   const [clientName, setClientName] = useState('');
 
   useEffect(() => {
@@ -1604,17 +1624,31 @@ function Landing() {
         style={{ gridTemplateColumns: '100%', gridTemplateRows: '1fr' }}
       >
         <AnimatePresence mode="sync" initial={false}>
+          {flowState === 'intro' && (
+            <motion.div
+              key="intro"
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              style={{ gridArea: '1 / 1' }}
+              className="w-full relative z-[100] bg-transparent"
+            >
+              <BrandReveal onComplete={() => setFlowState('landing')} />
+            </motion.div>
+          )}
+
           {flowState === 'landing' && (
             <motion.div
               key="landing"
-              initial={{ x: '100%', opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '-100%', opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               style={{ gridArea: '1 / 1' }}
               className="w-full relative z-10"
             >
-              <Navbar onContactClick={() => setFlowState('form')} />
+              <Navbar onContactClick={() => {
+                document.getElementById('founders')?.scrollIntoView({ behavior: 'smooth' });
+              }} />
               <main>
                 <Hero onStart={() => setFlowState('form')} />
                 <Marquee />
