@@ -77,25 +77,91 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NeuralWeb Labs — Engineering the Future of Intelligent Systems" },
-      { name: "description", content: "NeuralWeb Labs builds AI products, intelligent automation and next-generation digital experiences for ambitious companies." },
-      { name: "author", content: "NeuralWeb Labs" },
-      { property: "og:title", content: "NeuralWeb Labs — AI Innovation Studio" },
-      { property: "og:description", content: "Engineering the future of intelligent systems." },
+      { title: "NeuralWeb Labs | AI, Web & Intelligent Software Development" },
+      {
+        name: "description",
+        content:
+          "NeuralWeb Labs builds AI-powered applications, enterprise software, intelligent automation, modern web platforms, and scalable digital products for startups and enterprises.",
+      },
+      { name: "theme-color", content: "#050816" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "NeuralWeb Labs" },
+      {
+        property: "og:title",
+        content: "NeuralWeb Labs | AI, Web & Intelligent Software Development",
+      },
+      {
+        property: "og:description",
+        content:
+          "NeuralWeb Labs builds AI-powered applications, enterprise software, intelligent automation, modern web platforms, and scalable digital products for startups and enterprises.",
+      },
+      { property: "og:url", content: "https://neuralweblabs.com" },
+      { property: "og:site_name", content: "NeuralWeb Labs" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@neuralweblabs" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: "/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "NeuralWeb Labs | AI, Web & Intelligent Software Development",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Building AI-powered applications, enterprise software, automation systems, and intelligent digital products.",
+      },
+      { name: "twitter:image", content: "/og-image.jpg" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "canonical", href: "https://neuralweblabs.com" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", href: "/favicon-96x96.png", sizes: "96x96" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "NeuralWeb Labs",
+          url: "https://neuralweblabs.com",
+          logo: "https://neuralweblabs.com/logo.png",
+          description:
+            "AI-powered applications, enterprise software, intelligent automation, web platforms, and custom software development.",
+          email: "hello@neuralweblabs.com",
+          foundingDate: "2026",
+          sameAs: [
+            "https://linkedin.com/company/neuralweblabs",
+            "https://github.com/neuralweblabs",
+            "https://instagram.com/neuralweblabs",
+            "https://x.com/neuralweblabs",
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "NeuralWeb Labs",
+          url: "https://neuralweblabs.com",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://neuralweblabs.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
+        }),
       },
     ],
   }),

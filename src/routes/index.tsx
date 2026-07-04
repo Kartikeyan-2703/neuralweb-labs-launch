@@ -50,7 +50,7 @@ const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NeuralWeb Labs — Engineering Intelligent Systems" },
+      { title: "NeuralWeb Labs" },
       { name: "description", content: "AI products, intelligent automation, scalable software and next-generation digital experiences." },
       { property: "og:title", content: "NeuralWeb Labs" },
       { property: "og:description", content: "Engineering the future of intelligent systems." },
@@ -165,7 +165,7 @@ function PrimaryButton({
   onClick?: () => void;
 }) {
   return (
-    <button onClick={onClick} className="group relative overflow-hidden inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-7 py-3.5 text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
+    <button onClick={onClick} className="group relative overflow-hidden inline-flex items-center gap-2 sm:gap-3 rounded-full border border-white/10 bg-white/[0.02] px-5 sm:px-7 py-3 sm:py-3.5 text-[13px] sm:text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
       <GlossyOverlay radius="9999px" isButton />
       <span className="relative">{children}</span>
       <span className="relative grid h-6 w-6 place-items-center rounded-full border border-white/10 transition-transform duration-500 group-hover:translate-x-1">
@@ -177,7 +177,7 @@ function PrimaryButton({
 
 function GhostButton({ children, icon, onClick }: { children: React.ReactNode; icon?: React.ReactNode; onClick?: () => void }) {
   return (
-    <button onClick={onClick} className="group relative overflow-hidden inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-7 py-3.5 text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
+    <button onClick={onClick} className="group relative overflow-hidden inline-flex items-center gap-2 sm:gap-3 rounded-full border border-white/10 bg-white/[0.02] px-5 sm:px-7 py-3 sm:py-3.5 text-[13px] sm:text-sm font-medium text-white/80 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:text-white">
       <GlossyOverlay radius="9999px" isButton />
       <span className="relative grid h-6 w-6 place-items-center rounded-full border border-white/10">
         {icon ?? <Play className="h-3 w-3 fill-white/80" />}
@@ -248,7 +248,7 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`glass-nav relative flex h-[64px] items-center gap-2 rounded-full pl-5 pr-2 transition-all duration-500 overflow-hidden ${scrolled ? "shadow-2xl" : ""
+        className={`glass-nav relative flex h-[64px] items-center gap-1 sm:gap-2 rounded-full pl-3 sm:pl-5 pr-1.5 sm:pr-2 transition-all duration-500 overflow-hidden ${scrolled ? "shadow-2xl" : ""
           }`}
         style={{ backdropFilter: scrolled ? "blur(40px) saturate(180%)" : "blur(30px) saturate(160%)" }}
       >
@@ -272,9 +272,9 @@ function Navbar({ onContactClick }: { onContactClick?: () => void }) {
         />
 
         {/* Logo */}
-        <a href="#" className="relative z-10 flex items-center gap-2.5 pr-6">
-          <img src={nwlLogo} alt="NeuralWeb Labs" className="h-8 w-8 rounded-md object-contain" />
-          <span className="text-[13px] font-medium tracking-tight text-white">
+        <a href="#" className="relative z-10 flex items-center gap-2 sm:gap-2.5 pr-2 sm:pr-6 shrink-0">
+          <img src={nwlLogo} alt="NeuralWeb Labs Logo" className="h-8 w-8 rounded-md object-contain shrink-0" />
+          <span className="text-[13px] font-medium tracking-tight text-white whitespace-nowrap">
             NeuralWeb<span className="text-white/40"> Labs</span>
           </span>
         </a>
@@ -673,11 +673,11 @@ function Feature() {
 
         <FadeUp delay={0.15}>
           <div className="relative">
-            <div className="absolute -inset-10 -z-10 rounded-full bg-[color:var(--accent-glow)]/10 blur-3xl" />
+            <div className="absolute sm:-inset-10 -inset-4 -z-10 rounded-full bg-[color:var(--accent-glow)]/10 blur-3xl" />
             <div className="glass-panel relative overflow-hidden rounded-3xl p-6">
               <img
                 src={dashboard}
-                alt="NeuralWeb dashboard"
+                alt="Enterprise Software Dashboard"
                 width={1280}
                 height={960}
                 loading="lazy"
@@ -962,7 +962,7 @@ function CTA({ onStart }: { onStart?: () => void }) {
         <div className="relative">
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[400px] w-full max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               background:
                 "radial-gradient(closest-side, rgba(111,156,255,0.18), transparent 70%)",
@@ -988,9 +988,9 @@ function CTA({ onStart }: { onStart?: () => void }) {
             </p>
           </FadeUp>
           <FadeUp delay={0.3}>
-            <div className="mt-12 flex items-center justify-center gap-3">
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
               <PrimaryButton onClick={onStart}>Let&apos;s talk</PrimaryButton>
-              <GhostButton onClick={() => window.location.href = 'mailto:admin@neuralweb.com'} icon={<Mail className="h-3 w-3" />}>admin@neuralweb.com</GhostButton>
+              <GhostButton onClick={() => window.location.href = 'mailto:admin@neuralweblabs.com'} icon={<Mail className="h-3 w-3" />}>admin@neuralweblabs.com</GhostButton>
             </div>
           </FadeUp>
         </div>
@@ -1176,7 +1176,7 @@ function FounderCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col items-center overflow-hidden rounded-[24px] border border-white/10 bg-black/40 p-10 backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-1.5 hover:border-white/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]"
+      className="group relative flex flex-col items-center w-full overflow-hidden rounded-[24px] border border-white/10 bg-black/40 p-6 sm:p-10 backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-1.5 hover:border-white/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]"
     >
       {/* Subtle blue ambient glow behind card content */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.03),transparent_70%)]" />
@@ -1205,7 +1205,7 @@ function FounderCard({
         {name}
       </h3>
       <p className="mb-4 text-[14px] text-white/50">{role}</p>
-      <a href={`mailto:${email}`} className="mb-10 text-[13px] text-white/40 transition-colors hover:text-[#60A5FA]">
+      <a href={`mailto:${email}`} className="mb-10 text-[12px] sm:text-[13px] text-white/40 transition-colors hover:text-[#60A5FA] break-all text-center max-w-full px-2">
         {email}
       </a>
 
@@ -1245,7 +1245,7 @@ function Founders() {
     <section id="founders" ref={ref} className="relative py-40 overflow-hidden">
       {/* Background Effects */}
       <div className="pointer-events-none absolute inset-0 -z-20">
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.06),transparent_60%)] blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.06),transparent_60%)] blur-3xl" />
       </div>
 
       <motion.div style={{ y }} className="relative mx-auto max-w-5xl px-6 text-center">
@@ -1312,7 +1312,7 @@ function Footer({ onContactClick }: { onContactClick?: () => void }) {
           <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
               <a href="#" className="flex items-center gap-2.5">
-                <img src={nwlLogo} alt="NeuralWeb Labs" className="h-8 w-8 rounded-md object-contain" />
+                <img src={nwlLogo} alt="NeuralWeb Labs Logo" className="h-8 w-8 rounded-md object-contain" />
                 <span className="text-[14px] font-medium tracking-tight text-white">
                   NeuralWeb<span className="text-white/40"> Labs</span>
                 </span>
@@ -1362,7 +1362,7 @@ function Footer({ onContactClick }: { onContactClick?: () => void }) {
                 h: "Contact",
                 l: [
                   { label: "Start a Project", action: "contact" },
-                  { label: "admin@neuralweb.com", href: "mailto:admin@neuralweb.com" }
+                  { label: "admin@neuralweblabs.com", href: "mailto:admin@neuralweblabs.com" }
                 ]
               },
             ].map((col) => (
@@ -1459,9 +1459,62 @@ function TypewriterText({ text }: { text: string }) {
 
 function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => void; onBack: () => void }) {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [company, setCompany] = useState('');
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [projectDetails, setProjectDetails] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setToast(null);
+
+    const formData = new URLSearchParams();
+    formData.append('entry.200735690', name);
+    formData.append('entry.1612063088', email);
+    formData.append('entry.1818063459', phone);
+    formData.append('entry.1401290427', company);
+    formData.append('entry.794342549', selectedType || '');
+    formData.append('entry.1972350427', projectDetails);
+
+    try {
+      await fetch('https://docs.google.com/forms/d/e/1FAIpQLSdpkyQ6EtV8VQmVP5isYZVKrNCA1rypVNpVyGD78jhrUmLXvA/formResponse', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString()
+      });
+
+      // Clear fields
+      setName('');
+      setEmail('');
+      setPhone('');
+      setCompany('');
+      setSelectedType(null);
+      setProjectDetails('');
+
+      setToast({ type: 'success', message: "Thank you! We've received your message and will get back to you soon." });
+
+      // Auto dismiss toast after 5s
+      setTimeout(() => setToast(null), 5000);
+
+      // Trigger transition to success screen
+      onSubmit(name);
+    } catch (err) {
+      setToast({ type: 'error', message: "Something went wrong. Please try again later." });
+      setTimeout(() => setToast(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <motion.div
@@ -1471,6 +1524,26 @@ function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => vo
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className="w-full min-h-screen relative z-[100] flex flex-col lg:flex-row"
     >
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className={`fixed bottom-8 right-8 z-[200] flex items-center gap-3 rounded-2xl border bg-black/80 p-4 px-6 shadow-2xl backdrop-blur-xl ${toast.type === 'success' ? 'border-[#3B82F6]/30' : 'border-red-500/30'}`}
+          >
+            <div className={`grid h-8 w-8 place-items-center rounded-full ${toast.type === 'success' ? 'bg-[#3B82F6]/20 text-[#3B82F6]' : 'bg-red-500/20 text-red-500'}`}>
+              {toast.type === 'success' ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+            </div>
+            <p className="text-[14px] font-medium text-white">{toast.message}</p>
+            <button onClick={() => setToast(null)} className="ml-4 text-white/50 hover:text-white transition-colors">
+              <X className="h-4 w-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Left Side: Sticky Quote */}
       <div className="w-full lg:w-[45%] lg:h-screen lg:sticky top-0 flex flex-col justify-center px-8 py-16 lg:px-16 z-20">
         <button onClick={onBack} className="absolute top-8 left-8 lg:top-16 lg:left-16 inline-flex items-center gap-2 text-[14px] text-white/50 hover:text-white transition-colors">
@@ -1483,7 +1556,7 @@ function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => vo
 
       {/* Right Side: Scrollable Form */}
       <div className="w-full lg:w-[55%] min-h-screen pb-32 pt-8 lg:pt-24 px-4 lg:px-12 z-10 flex flex-col justify-center">
-        <form className="contact-form mx-auto w-full max-w-2xl mt-8 lg:mt-0" onSubmit={(e) => { e.preventDefault(); onSubmit(name); }}>
+        <form className="contact-form mx-auto w-full max-w-2xl mt-8 lg:mt-0" onSubmit={handleSubmit}>
           <p className="contact-form-heading">Client Inquiry</p>
 
           <div className="contact-field mb-4">
@@ -1493,17 +1566,17 @@ function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => vo
 
           <div className="contact-field mb-4">
             <svg className="contact-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z" /></svg>
-            <input required placeholder="Work Email *" className="contact-input-field" type="email" />
+            <input required placeholder="Work Email *" className="contact-input-field" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
 
           <div className="contact-field mb-4">
             <svg className="contact-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" /></svg>
-            <input required placeholder="Phone Number *" className="contact-input-field" type="tel" />
+            <input required placeholder="Phone Number *" className="contact-input-field" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </div>
 
           <div className="contact-field mb-8">
             <svg className="contact-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z" /></svg>
-            <input placeholder="Organization / Company" className="contact-input-field" type="text" />
+            <input placeholder="Organization / Company" className="contact-input-field" type="text" value={company} onChange={(e) => setCompany(e.target.value)} />
           </div>
 
           <p className="text-white/60 mb-2 ml-2 text-sm font-medium">What are you looking to build?</p>
@@ -1513,7 +1586,7 @@ function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => vo
                 key={type}
                 type="button"
                 onClick={() => setSelectedType(type)}
-                className={`flex h-20 flex-col items-center justify-center text-center px-2 rounded-2xl border transition-all duration-300 ${selectedType === type ? 'border-white/40 bg-white/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]' : 'border-white/10 bg-black/30 backdrop-blur-md text-white/60 hover:border-white/30 hover:text-white hover:bg-white/5'}`}
+                className={`flex h-auto min-h-[5rem] py-3 flex-col items-center justify-center text-center px-2 rounded-2xl border transition-all duration-300 ${selectedType === type ? 'border-white/40 bg-white/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]' : 'border-white/10 bg-black/30 backdrop-blur-md text-white/60 hover:border-white/30 hover:text-white hover:bg-white/5'}`}
               >
                 <span className="text-[13px] font-medium leading-tight">{type}</span>
               </button>
@@ -1526,27 +1599,43 @@ function RegistrationForm({ onSubmit, onBack }: { onSubmit: (name: string) => vo
               rows={4}
               className="contact-input-field resize-none h-auto pt-2"
               placeholder="Describe your idea, goals, challenges..."
+              value={projectDetails}
+              onChange={(e) => setProjectDetails(e.target.value)}
             />
           </div>
 
           <div className="contact-btn-container flex justify-center mt-6">
-            <button type="submit" className="cta">
-              <span className="hover-underline-animation">Start the Conversation</span>
-              <svg
-                id="arrow-horizontal"
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="10"
-                viewBox="0 0 46 16"
-                fill="white"
-              >
-                <path
-                  id="Path_10"
-                  data-name="Path 10"
-                  d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-                  transform="translate(30)"
-                ></path>
-              </svg>
+            <button type="submit" disabled={isSubmitting} className="cta disabled:opacity-70 disabled:cursor-not-allowed">
+              <span className="hover-underline-animation flex items-center gap-2">
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  "Start the Conversation"
+                )}
+              </span>
+              {!isSubmitting && (
+                <svg
+                  id="arrow-horizontal"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="10"
+                  viewBox="0 0 46 16"
+                  fill="white"
+                >
+                  <path
+                    id="Path_10"
+                    data-name="Path 10"
+                    d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                    transform="translate(30)"
+                  ></path>
+                </svg>
+              )}
             </button>
           </div>
         </form>
@@ -1588,7 +1677,14 @@ function SuccessScreen({ onReturn, clientName }: { onReturn: () => void; clientN
         </div>
         <p className="text-[14px] text-white/40 mb-10">— NeuralWeb Labs</p>
 
-        <PrimaryButton onClick={onReturn}>Return to Home</PrimaryButton>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <GhostButton onClick={onReturn}>Return to Home</GhostButton>
+          <PrimaryButton
+            onClick={() => window.open('https://wa.me/916381999421?text=Hi%20NeuralWeb%20Labs%2C%0A%0AI\'m%20interested%20in%20discussing%20a%20project%20with%20your%20team.%20I\'d%20like%20to%20learn%20more%20about%20your%20services%20and%20explore%20how%20we%20can%20work%20together.', '_blank')}
+          >
+            Chat on WhatsApp
+          </PrimaryButton>
+        </div>
       </motion.div>
     </motion.div>
   );
