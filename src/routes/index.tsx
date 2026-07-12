@@ -1745,6 +1745,20 @@ function Landing() {
               <Navbar onContactClick={() => {
                 document.getElementById('founders')?.scrollIntoView({ behavior: 'smooth' });
               }} />
+
+              {/* Floating Blogs Button */}
+              <a
+                href="/blogs"
+                className="group fixed top-6 right-8 lg:right-12 h-[64px] z-[100] hidden md:flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.15em] text-white/90 hover:text-white"
+              >
+                <span className="relative pb-1 overflow-hidden">
+                  BLOGS
+                  <span className="absolute bottom-0 left-0 h-[1px] w-full bg-white transition-transform duration-300 group-hover:-translate-x-[105%]" />
+                  <span className="absolute bottom-0 left-0 h-[1px] w-full bg-white translate-x-[105%] transition-transform duration-300 group-hover:translate-x-0" />
+                </span>
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={1.5} />
+              </a>
+
               <main>
                 <Hero onStart={() => setFlowState('form')} />
                 <Marquee />
